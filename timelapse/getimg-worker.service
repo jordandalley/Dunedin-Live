@@ -1,0 +1,14 @@
+[Unit]
+Description=Camera Image Downloader Daemon
+After=network.target
+
+[Service]
+User=svcs
+Group=svcs
+WorkingDirectory=/home/svcs/dunedin-live/timelapse
+ExecStart=/usr/bin/python3 -u getimg-worker.py
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target
