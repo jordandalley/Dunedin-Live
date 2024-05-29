@@ -15,9 +15,6 @@ TIMEZONE = "Pacific/Auckland"
 # Time interval between capturing frames (in seconds)
 TIME_INTERVAL = 10
 
-# Time interval between capturing frames (in seconds)
-TIME_INTERVAL = 10
-
 # Camera Username/Password (Consider using environment variables instead)
 CAMERA_API_USER = ""
 CAMERA_API_PASSWORD = ""
