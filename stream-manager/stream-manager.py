@@ -15,7 +15,7 @@ SCOPES = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 STREAM_KEY = ""
 
 # Path where auth tokens and client secrets json files are stored
-AUTH_TOKEN_PATH = "/home/svcs/dunedin-live/stream-manager"
+AUTH_TOKEN_PATH = "/home/svcs/dunedin-live/oauth-files"
 
 # Your timezone
 TIMEZONE = "Pacific/Auckland"
