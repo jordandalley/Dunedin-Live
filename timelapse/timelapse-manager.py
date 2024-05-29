@@ -19,10 +19,10 @@ TIMEZONE = "Pacific/Auckland"
 AUTH_TOKEN_PATH = "/home/svcs/dunedin-live/oauth-files"
 
 # Image path
-TIMELAPSE_IMAGE_PATH = "/mnt/Media2/Dunedin-Live"
+TIMELAPSE_IMAGE_PATH = "/mnt/Media/Dunedin-Live"
 
 # Video output / upload path
-VIDEO_OUTPUT_PATH = "/mnt/Media2/Dunedin-Live/tmp"
+VIDEO_OUTPUT_PATH = "/mnt/Media/Dunedin-Live/tmp"
 
 # Youtube Video Title
 YOUTUBE_TITLE = "Dunedin, NZ: Timelapse"
