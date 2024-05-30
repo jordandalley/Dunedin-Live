@@ -65,6 +65,7 @@ def create_timelapse_video(inputdir,outputdir):
     # Define ffmpeg params
     ffmpeg = [
         'ffmpeg',
+        '-framerate', '30',
         '-pattern_type', 'glob',
         '-i', inputdir + '/' + '*.jpg',
         '-c:v', 'libx264',
