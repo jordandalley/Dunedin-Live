@@ -152,7 +152,7 @@ def start_new_broadcast(youtube):
           },
           "contentDetails": {
             "enableAutoStart": "true",
-            "enableAutoStop": "true",
+            "enableAutoStop": "false",
             "enableDvr": "true",
             "latencyPreference": "normal",
             "recordFromStart": "true"
