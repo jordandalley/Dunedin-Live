@@ -85,7 +85,7 @@ def get_authenticated_service():
             token.write(creds.to_json())
 
     # Build the YouTube Data API service
-    youtube = googleapiclient.discovery.build('youtube', 'v3', credentials=creds)
+    youtube = googleapiclient.discovery.build('youtube', 'v3', credentials=creds, num_retries=3)
     return youtube
 
 def find_stream_id_by_key(youtube,stream_key):
