@@ -28,7 +28,7 @@ VIDEO_OUTPUT_PATH = "/mnt/Media/Dunedin-Live/tmp"
 YOUTUBE_TITLE = "Dunedin, NZ: Timelapse"
 
 # Youtube Video Description
-YOUTUBE_DESCRIPTION = "This timelapse was recorded on a Provision ISR DI-380IPEN-MVF-V3 Camera. Camera sponsored by SWL: https://www.swl.co.nz/. Internet connectivity by South Island based Quic Broadband. Join Quic Broadband Today! No contract with FREE setup, click here: https://account.quic.nz/refer/282731 and on Checkout, use the code: R282731EPGJMG."
+YOUTUBE_DESCRIPTION = "This timelapse was recorded on a Provision ISR DI-380IPEN-MVF-V3 Camera. Camera sponsored by SWL: https://www.swl.co.nz/. Internet connectivity powered by South Island based Quic broadband. Use the code R282731EPGJMG on checkout to waive the $29 setup fee! Plans from $56 a month. Click here to join now: https://account.quic.nz/refer/282731"
 
 # Youtube video tags
 YOUTUBE_VIDEO_TAGS = ["Dunedin", "New Zealand", "Timelapse"]
