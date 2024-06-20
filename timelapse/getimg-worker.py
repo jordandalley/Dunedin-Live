@@ -20,7 +20,7 @@ CAMERA_API_USER = ""
 CAMERA_API_PASSWORD = ""
 
 # Save Path
-IMG_SAVE_PATH = "/mnt/Media/Dunedin-Live"
+IMG_SAVE_PATH = "/mnt/Media/Dunedin-Live/images"
 
 def download_image(url, username, password, savepath, tz):
     try:
