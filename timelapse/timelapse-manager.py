@@ -16,10 +16,10 @@ SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
 TIMEZONE = "Pacific/Auckland"
 
 # Path where auth tokens and client secrets json files are stored
-AUTH_TOKEN_PATH = "/home/svcs/dunedin-live/oauth-files"
+AUTH_TOKEN_PATH = "/home/jdalley/dunedin-live/oauth-files"
 
 # Image path
-TIMELAPSE_IMAGE_PATH = "/mnt/Media/Dunedin-Live"
+TIMELAPSE_IMAGE_PATH = "/mnt/Media/Dunedin-Live/images"
 
 # Video output / upload path
 VIDEO_OUTPUT_PATH = "/mnt/Media/Dunedin-Live/tmp"
@@ -62,13 +62,25 @@ def create_timelapse_video(inputdir,outputdir):
             print(f"An error occurred while deleting the file: {e}")
     else:
         print(f"Old video file {outputfile} does not exist, moving on...")
-    # Define ffmpeg params
+    # Define ffmpeg params (software encoding)
+    #ffmpeg = [
+    #    'ffmpeg',
+    #    '-framerate', '30',
+    #    '-pattern_type', 'glob',
+    #    '-i', inputdir + '/' + '*.jpg',
+    #    '-c:v', 'libx264',
+    #    '-pix_fmt', 'yuv420p',
+    #    '-r', '30',
+    #    outputfile
+    #]
+    # Define ffmpeg parameters (hardware encoding)
     ffmpeg = [
         'ffmpeg',
         '-framerate', '30',
         '-pattern_type', 'glob',
         '-i', inputdir + '/' + '*.jpg',
-        '-c:v', 'libx264',
+        '-c:v', 'h264_nvenc',
+        '-b:v', '53920k',
         '-pix_fmt', 'yuv420p',
         '-r', '30',
         outputfile
