@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=jdalley
 Group=jdalley
-WorkingDirectory=/home/svcs/dunedin-live/timelapse
+WorkingDirectory=/home/jdalley/dunedin-live/timelapse
 ExecStart=/usr/bin/python3 -u getimg-worker.py
 Restart=always
 RestartSec=60
