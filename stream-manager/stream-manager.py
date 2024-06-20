@@ -3,6 +3,7 @@ import time
 import datetime
 import pytz
 import requests
+import json
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
 from google.auth.transport.requests import Request
@@ -15,14 +16,14 @@ SCOPES = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 STREAM_KEY = ""
 
 # Path where auth tokens and client secrets json files are stored
-AUTH_TOKEN_PATH = "/home/svcs/dunedin-live/oauth-files"
+AUTH_TOKEN_PATH = "/home/jdalley/dunedin-live/oauth-files"
 
 # Your timezone
 TIMEZONE = "Pacific/Auckland"
 
 # Restreamer IP and Port
-RESTREAMER_IP = "192.168.50.2"
-RESTREAMER_PORT = "8380"
+RESTREAMER_IP = ""
+RESTREAMER_PORT = ""
 RESTREAMER_USER = ""
 RESTREAMER_PASSWORD = ""
 RESTREAMER_YOUTUBE_API_COMMAND_PATH = "/api/v3/process/restreamer-ui%3Aegress%3Ayoutube%3A00089a01-1463-46ca-b7e1-cd577a1fb0e4/command"
