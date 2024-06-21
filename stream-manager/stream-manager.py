@@ -8,6 +8,7 @@ import google_auth_oauthlib.flow
 import googleapiclient.discovery
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+import random
 
 # OAuth scope for YouTube Data API
 SCOPES = ["https://www.googleapis.com/auth/youtube.force-ssl"]
@@ -22,11 +23,16 @@ AUTH_TOKEN_PATH = "/home/jdalley/dunedin-live/oauth-files"
 TIMEZONE = "Pacific/Auckland"
 
 # Restreamer IP and Port
-RESTREAMER_IP = ""
-RESTREAMER_PORT = ""
+RESTREAMER_IP = "192.168.50.2"
+RESTREAMER_PORT = "8380"
 RESTREAMER_USER = ""
 RESTREAMER_PASSWORD = ""
 RESTREAMER_YOUTUBE_API_COMMAND_PATH = "/api/v3/process/restreamer-ui%3Aegress%3Ayoutube%3A00089a01-1463-46ca-b7e1-cd577a1fb0e4/command"
+
+# Retry settings
+MAX_RETRIES = 10
+INITIAL_DELAY = 10
+BACKOFF_FACTOR = 2
 
 # Set the stream title and description
 STREAM_TITLE = 'Dunedin, NZ - Live Webcam (4K)'
@@ -66,7 +72,27 @@ def toggle_restreamer_youtube_stream(access_token,command):
     else:
         print(f"Failed to toggle the youtube stream: {response.status_code}")
 
+# Retry decorator with exponential backoff
+def retry_with_exponential_backoff(max_retries=MAX_RETRIES, initial_delay=INITIAL_DELAY, backoff_factor=BACKOFF_FACTOR):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            delay = initial_delay
+            for attempt in range(max_retries):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    if attempt == max_retries - 1:
+                        raise
+                    else:
+                        time.sleep(delay)
+                        delay *= backoff_factor
+                        # Optionally add jitter to the delay to prevent Thundering Herd problem
+                        delay += random.uniform(0, 1)
+                        print(f"Retrying in {delay:.2f} seconds after failure: {e}")
+        return wrapper
+    return decorator
 
+@retry_with_exponential_backoff()
 def get_authenticated_service():
     creds = None
     # The file token.json stores the user's access and refresh tokens
@@ -84,58 +110,55 @@ def get_authenticated_service():
         with open(f'{AUTH_TOKEN_PATH}/token.json', 'w') as token:
             token.write(creds.to_json())
 
-    # Build the YouTube Data API service
-    youtube = googleapiclient.discovery.build('youtube', 'v3', credentials=creds, num_retries=3)
+    # Build the YouTube API client
+    youtube = googleapiclient.discovery.build('youtube', 'v3', credentials=creds)
     return youtube
 
-def find_stream_id_by_key(youtube,stream_key):
-    liveStreamList = youtube.liveStreams().list(
-        part="id,status,snippet,cdn",
-        mine="true"
+@retry_with_exponential_backoff()
+def find_stream_id_by_key(youtube, stream_key):
+    request = youtube.liveStreams().list(
+        part="id,snippet,cdn",
+        mine=True
     )
-    liveStreamListResponse = liveStreamList.execute()
+    response = request.execute()
+    for stream in response.get('items', []):
+        cdn_info = stream.get('cdn', {})
+        if cdn_info.get('ingestionInfo', {}).get('streamName') == stream_key:
+            return stream['id']
+    raise ValueError("Stream key not found or 'cdn' information is missing")
 
-    for item in liveStreamListResponse.get("items", []):
-        cdn_info = item.get("cdn", {})
-        if cdn_info.get("ingestionInfo", {}).get("streamName") == stream_key:
-            return item.get("id")
-    return None
-
+@retry_with_exponential_backoff()
 def find_broadcast_id_by_stream_id(youtube, stream_id):
-    liveBroadcastList = youtube.liveBroadcasts().list(
-        part="id,snippet,contentDetails",
-        mine="true",
-        maxResults=50,
+    request = youtube.liveBroadcasts().list(
+        part="id,contentDetails",
+        broadcastStatus="active",
+        broadcastType="all"
     )
-    liveBroadcastListresponse = liveBroadcastList.execute()
-
-    for broadcast in liveBroadcastListresponse.get("items", []):
-        broadcast_id = broadcast.get("id")
-        broadcast_details = youtube.liveBroadcasts().list(
-            part="contentDetails",
-            id=broadcast_id
-        ).execute()
-        if broadcast_details.get("items", [])[0].get("contentDetails", {}).get("boundStreamId") == stream_id:
-            return broadcast_id
-
+    response = request.execute()
+    for broadcast in response['items']:
+        if broadcast['contentDetails']['boundStreamId'] == stream_id:
+            return broadcast['id']
     return None
 
+@retry_with_exponential_backoff()
 def is_broadcast_streaming(youtube, broadcast_id):
     request = youtube.liveBroadcasts().list(
-        part="status",
+        part="id,status",
         id=broadcast_id
     )
     response = request.execute()
-    return response["items"][0]["status"]["lifeCycleStatus"]
+    return response['items'][0]['status']['lifeCycleStatus']
 
-def stop_broadcast_by_id(youtube, current_broadcast_id):
+@retry_with_exponential_backoff()
+def stop_broadcast_by_id(youtube, broadcast_id):
     request = youtube.liveBroadcasts().transition(
-        part="snippet",
-        id=current_broadcast_id,
-        broadcastStatus = "complete"
+        broadcastStatus="complete",
+        id=broadcast_id,
+        part="id,status"
     )
     response = request.execute()
 
+@retry_with_exponential_backoff()
 def start_new_broadcast(youtube):
     current_time = datetime.datetime.now(pytz.timezone(TIMEZONE))
     scheduled_end_time = current_time + datetime.timedelta(hours=11, minutes=59)
@@ -165,7 +188,8 @@ def start_new_broadcast(youtube):
     liveBroadcastStartResponse = liveBroadcastStart.execute()
     return liveBroadcastStartResponse['id']
 
-def bind_stream_to_broadcast(youtube,stream_id,broadcast_id):
+@retry_with_exponential_backoff()
+def bind_stream_to_broadcast(youtube, stream_id, broadcast_id):
     liveBroadcastBind = youtube.liveBroadcasts().bind(
         part="id,contentDetails",
         id=broadcast_id,
@@ -173,6 +197,7 @@ def bind_stream_to_broadcast(youtube,stream_id,broadcast_id):
     )
     liveBroadcastBind = liveBroadcastBind.execute()
 
+@retry_with_exponential_backoff()
 def unbind_stream_from_broadcast(youtube, broadcast_id):
     liveBroadcastBind = youtube.liveBroadcasts().bind(
         part="id,contentDetails",
@@ -209,7 +234,7 @@ def main():
     broadcast_id = start_new_broadcast(youtube)
     print(f"Broadcast started with ID: {broadcast_id}")
     print(f"Binding stream ID to broadcast ID")
-    bind_stream_to_broadcast(youtube,stream_id,broadcast_id)
+    bind_stream_to_broadcast(youtube, stream_id, broadcast_id)
     print(f"Stream bound, starting restreamer youtube process...")
     restreamer_toggle = toggle_restreamer_youtube_stream(restreamer_access_token,"start")
 
