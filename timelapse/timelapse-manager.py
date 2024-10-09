@@ -19,16 +19,16 @@ TIMEZONE = "Pacific/Auckland"
 AUTH_TOKEN_PATH = "/home/jdalley/dunedin-live/oauth-files"
 
 # Image path
-TIMELAPSE_IMAGE_PATH = "/mnt/Media/Dunedin-Live/images"
+TIMELAPSE_IMAGE_PATH = "/home/jdalley/dunedin-live/timelapse/img"
 
 # Video output / upload path
-VIDEO_OUTPUT_PATH = "/mnt/Media/Dunedin-Live/tmp"
+VIDEO_OUTPUT_PATH = "/home/jdalley/dunedin-live/timelapse/tmp"
 
 # Youtube Video Title
 YOUTUBE_TITLE = "Dunedin, NZ: Timelapse"
 
 # Youtube Video Description
-YOUTUBE_DESCRIPTION = "This timelapse was recorded on a Provision ISR DI-380IPEN-MVF-V3 Camera. Camera sponsored by SWL: https://www.swl.co.nz/. Internet connectivity powered by South Island based Quic broadband. Use the code R282731EPGJMG on checkout to waive the $29 setup fee! Plans from $56 a month. Click here to join now: https://account.quic.nz/refer/282731"
+YOUTUBE_DESCRIPTION = "This livestream uses Quic Broadband - For FREE signup visit https://account.quic.nz/refer/282731 and use the code R282731EPGJMG on checkout. Timelapse was recorded on a Provision ISR DI-380IPEN-MVF-V3 Camera provided by SWL: https://www.swl.co.nz/. New timelapse is generated at midnight every night."
 
 # Youtube video tags
 YOUTUBE_VIDEO_TAGS = ["Dunedin", "New Zealand", "Timelapse"]
@@ -63,28 +63,28 @@ def create_timelapse_video(inputdir,outputdir):
     else:
         print(f"Old video file {outputfile} does not exist, moving on...")
     # Define ffmpeg params (software encoding)
-    #ffmpeg = [
-    #    'ffmpeg',
-    #    '-framerate', '30',
-    #    '-pattern_type', 'glob',
-    #    '-i', inputdir + '/' + '*.jpg',
-    #    '-c:v', 'libx264',
-    #    '-pix_fmt', 'yuv420p',
-    #    '-r', '30',
-    #    outputfile
-    #]
-    # Define ffmpeg parameters (hardware encoding)
     ffmpeg = [
         'ffmpeg',
         '-framerate', '30',
         '-pattern_type', 'glob',
         '-i', inputdir + '/' + '*.jpg',
-        '-c:v', 'h264_nvenc',
-        '-b:v', '53920k',
+        '-c:v', 'libx264',
         '-pix_fmt', 'yuv420p',
         '-r', '30',
         outputfile
     ]
+    # Define ffmpeg parameters (hardware encoding using nvidia)
+    #ffmpeg = [
+    #    'ffmpeg',
+    #    '-framerate', '30',
+    #    '-pattern_type', 'glob',
+    #    '-i', inputdir + '/' + '*.jpg',
+    #    '-c:v', 'h264_nvenc',
+    #    '-b:v', '53920k',
+    #    '-pix_fmt', 'yuv420p',
+    #    '-r', '30',
+    #    outputfile
+    #]
     # Run ffmpeg
     print("Running ffmpeg, this may take a while...")
     try:
