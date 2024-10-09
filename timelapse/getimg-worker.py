@@ -7,7 +7,8 @@ import threading
 import time
 
 # URL to Camera Snapshot API
-CAMERA_API_URL = "http://192.168.50.3/GetSnapshot"
+CAMERA_API_URL = "http://192.168.53.4/GetSnapshot"
+#CAMERA_API_URL = "http://192.168.50.12:8380/memfs/77104d0c-bd85-477e-944c-fcb09f6a8e5e.jpg"
 
 # Timezone
 TIMEZONE = "Pacific/Auckland"
@@ -20,7 +21,7 @@ CAMERA_API_USER = ""
 CAMERA_API_PASSWORD = ""
 
 # Save Path
-IMG_SAVE_PATH = "/mnt/Media/Dunedin-Live/images"
+IMG_SAVE_PATH = "/home/jdalley/dunedin-live/timelapse/img"
 
 def download_image(url, username, password, savepath, tz):
     try:
