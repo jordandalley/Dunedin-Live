@@ -23,7 +23,7 @@ AUTH_TOKEN_PATH = "/home/jdalley/dunedin-live/oauth-files"
 TIMEZONE = "Pacific/Auckland"
 
 # Restreamer IP and Port
-RESTREAMER_IP = "192.168.50.2"
+RESTREAMER_IP = "192.168.52.12"
 RESTREAMER_PORT = "8380"
 RESTREAMER_USER = ""
 RESTREAMER_PASSWORD = ""
@@ -36,7 +36,7 @@ BACKOFF_FACTOR = 2
 
 # Set the stream title and description
 STREAM_TITLE = 'Dunedin, NZ - Live Webcam (4K)'
-STREAM_DESCRIPTION = 'This stream is rolled over every 12 hours, at 3:00am and 3:00pm NZ time. Please subscribe to find the latest live stream easily! Stream shot on a Provision ISR DI-380IPEN-MVF-V3 Camera. Camera sponsored by SWL: https://www.swl.co.nz/. This 24x7 stream is powered by South Island based Quic broadband. Use the code R282731EPGJMG on checkout to waive the $29 setup fee! Plans from $56 a month. Click here to join now: https://account.quic.nz/refer/282731'
+STREAM_DESCRIPTION = 'This 4K stream runs on Quic Broadband - For FREE signup visit https://account.quic.nz/refer/282731 and use the code R282731EPGJMG on checkout. This stream is rolled over every 12 hours, at 3:00am and 3:00pm NZ time. Please subscribe to find the latest live stream easily! Stream shot on a Provision ISR DI-380IPEN-MVF-V3 Camera provided by SWL: https://www.swl.co.nz/. Higher quality direct stream available here: https://dunedin-live.dalleyfamily.net/'
 
 def get_restreaner_access_token():
     url = f'http://{RESTREAMER_IP}:{RESTREAMER_PORT}/api/login'
