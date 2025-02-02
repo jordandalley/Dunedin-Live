@@ -47,8 +47,8 @@ def get_weather_data(apiUrl, apiKey, lat, lon):
         print(f"Error {response.status_code}: {response.text}")
 
 def updateOSD(cameraUrl,cameraUsername,cameraPassword,observationArray):
-    tempAndHumString = 'Temp: ' + next((value for key, value in observationArray if key == 'temperature'), None) + chr(186) + 'C' + chr(10) + 'Humi: ' + next((value for key, value in observationArray if key == 'relativeHumidity'), None) + '%'
-    windString = 'Wind: ' + next((value for key, value in observationArray if key == 'windDirection'), None) + ' ' + next((value for key, value in observationArray if key == 'windSpeed'), None) + '-' + next((value for key, value in observationArray if key == 'windGustSpeed'), None) + 'kph'
+    wxString1 = 'T: ' + next((value for key, value in observationArray if key == 'temperature'), None) + chr(186) + 'C H: ' + next((value for key, value in observationArray if key == 'relativeHumidity'), None) + '%'
+    wxString2 = 'W: ' + next((value for key, value in observationArray if key == 'windDirection'), None) + ' ' + next((value for key, value in observationArray if key == 'windSpeed'), None) + '-' + next((value for key, value in observationArray if key == 'windGustSpeed'), None) + ' kph'
     # The XML data to send
     xml_data_raw = """<?xml version="1.0" encoding="UTF-8"?>
     <config xmlns="http://www.ipc.com/ver10" version="1.7">
@@ -67,7 +67,7 @@ def updateOSD(cameraUrl,cameraUsername,cameraPassword,observationArray):
         <time>
           <switch type="boolean">true</switch>
           <X type="uint32">300</X>
-          <Y type="uint32">400</Y>
+          <Y type="uint32">420</Y>
           <dateFormat type="dateFormat">day-month-year</dateFormat>
         </time>
         <channelName>
@@ -89,20 +89,20 @@ def updateOSD(cameraUrl,cameraUsername,cameraPassword,observationArray):
           <item>
             <switch type="boolean">true</switch>
             <X type="uint32">300</X>
-            <Y type="uint32">800</Y>
+            <Y type="uint32">700</Y>
             <showLevel type="uint32">0</showLevel>
             <flickerSwitch type="boolean">false</flickerSwitch>
             <osdOverlayType type="osdOverlayType">TEXT</osdOverlayType>
-            <value type="string" maxLen="32"><![CDATA[""" + tempAndHumString + """]]></value>
+            <value type="string" maxLen="32"><![CDATA[""" + wxString1 + """]]></value>
           </item>
           <item>
             <switch type="boolean">true</switch>
             <X type="uint32">300</X>
-            <Y type="uint32">1370</Y>
+            <Y type="uint32">960</Y>
             <showLevel type="uint32">0</showLevel>
-            <flickerSwitch type="boolean">false</flickerSwitch>
+            <flickerSwitch type="boolean">true</flickerSwitch>
             <osdOverlayType type="osdOverlayType">TEXT</osdOverlayType>
-            <value type="string" maxLen="32"><![CDATA[""" + windString  + """]]></value>
+            <value type="string" maxLen="32"><![CDATA[""" + wxString2 + """]]></value>
           </item>
           <item>
             <switch type="boolean">false</switch>
