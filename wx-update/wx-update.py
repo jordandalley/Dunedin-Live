@@ -47,7 +47,7 @@ def get_weather_data(apiUrl, apiKey, lat, lon):
         print(f"Error {response.status_code}: {response.text}")
 
 def updateOSD(cameraUrl,cameraUsername,cameraPassword,observationArray):
-    wxString1 = 'T: ' + next((value for key, value in observationArray if key == 'temperature'), None) + chr(186) + 'C H: ' + next((value for key, value in observationArray if key == 'relativeHumidity'), None) + '%'
+    wxString1 = 'T: ' + next((value for key, value in observationArray if key == 'temperature'), None) + chr(186) + 'C  H: ' + next((value for key, value in observationArray if key == 'relativeHumidity'), None) + '%'
     wxString2 = 'W: ' + next((value for key, value in observationArray if key == 'windDirection'), None) + ' ' + next((value for key, value in observationArray if key == 'windSpeed'), None) + '-' + next((value for key, value in observationArray if key == 'windGustSpeed'), None) + ' kph'
     # The XML data to send
     xml_data_raw = """<?xml version="1.0" encoding="UTF-8"?>
