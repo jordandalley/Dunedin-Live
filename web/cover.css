@@ -10,6 +10,9 @@
   text-shadow: none; /* Prevent inheritance from `body` */
 }
 
+.px-3 {
+  padding:1rem!important;
+}
 
 /*
  * Base structure
