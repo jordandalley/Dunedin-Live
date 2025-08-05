@@ -3,6 +3,8 @@ services:
     build: .
     container_name: dl-camera-control
     network_mode: host
+    environment:
+      - "TZ=Pacific/Auckland"
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
     restart: unless-stopped
