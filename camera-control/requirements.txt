@@ -1,4 +1,0 @@
-astral
-pytz
-requests
-apscheduler
