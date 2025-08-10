@@ -1,0 +1,17 @@
+services:
+  dl-timelapse-capturer:
+    build: .
+    container_name: dl-timelapse-capturer
+    network_mode: host
+    volumes:
+      - /docker/dl-timelapse-capturer/data:/data
+    environment:
+      - TZ=Pacific/Auckland
+      - CAMERA_IMG_URL=http://192.168.53.4/GetSnapshot
+      - CAMERA_USER=admin
+      - CAMERA_PASSWORD=dumbpassword
+      - TIME_INTERVAL=10
+      - IMG_SAVE_PATH=/data
+    #labels:
+    #  - "com.centurylinklabs.watchtower.enable=false"
+    restart: unless-stopped

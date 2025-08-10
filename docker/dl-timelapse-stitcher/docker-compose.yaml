@@ -1,0 +1,29 @@
+services:
+  dl-timelapse-stitcher:
+    build: .
+    container_name: dl-timelapse-stitcher
+    network_mode: host
+    volumes:
+      # Video Output Folder: /data/video should map to our own docker mapped volume for video output file
+      - /docker/dl-timelapse-stitcher/data:/data/video
+      # Image Source Folder: /data/images should be mapped to the dl-timelapse-capturer images folder 
+      - /docker/dl-timelapse-capturer/data:/data/images
+      # Youtube Oauth Keys: /data/oauth should map to the dl-youtube-manager data folder where Youtube oauth keys are stored
+      - /docker/dl-youtube-manager/data:/data/oauth
+    environment:
+      TZ: Pacific/Auckland
+      AUTH_TOKEN_PATH: /data/oauth
+      TIMELAPSE_IMAGE_PATH: /data/images
+      VIDEO_OUTPUT_PATH: /data/video
+      YOUTUBE_TITLE: "Dunedin, NZ: Timelapse"
+      YOUTUBE_DESCRIPTION: >
+        This livestream uses Quic Broadband - For FREE signup visit https://account.quic.nz/refer/282731
+        and use the code R282731EPGJMG on checkout. Timelapse was recorded on a Provision ISR DI-380IPEN-MVF-V3
+        Camera provided by SWL: https://www.swl.co.nz/. New timelapse is generated at midnight every night.
+      YOUTUBE_VIDEO_TAGS: Dunedin,New Zealand,Timelapse
+      YOUTUBE_CATEGORY_ID: "19"
+      YOUTUBE_PRIVACY: public
+      CLEANUP_IMAGES: "true"
+    #labels:
+    #  - "com.centurylinklabs.watchtower.enable=false"
+    restart: no
