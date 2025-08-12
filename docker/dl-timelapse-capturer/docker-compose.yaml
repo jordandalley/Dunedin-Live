@@ -2,7 +2,6 @@ services:
   dl-timelapse-capturer:
     build: .
     container_name: dl-timelapse-capturer
-    network_mode: host
     volumes:
       - /docker/dl-timelapse-capturer/data:/data
     environment:
@@ -12,6 +11,11 @@ services:
       - CAMERA_PASSWORD=dumbpassword
       - TIME_INTERVAL=10
       - IMG_SAVE_PATH=/data
-    #labels:
-    #  - "com.centurylinklabs.watchtower.enable=false"
+    networks:
+      - dunedin-live
     restart: unless-stopped
+
+networks:
+  dunedin-live:
+    external: true
+    name: dunedin-live
