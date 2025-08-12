@@ -2,7 +2,6 @@ services:
   dl-wx-updater:
     build: .
     container_name: dl-wx-updater
-    network_mode: host
     environment:
       - TZ=Pacific/Auckland
       - API_URL=https://api.metservice.com/mobile/nz/weatherData
@@ -13,6 +12,11 @@ services:
       - CAMERA_USERNAME=admin
       - CAMERA_PASSWORD=dumbpassword
       - UPDATE_INTERVAL=600
-    #labels:
-    #  - "com.centurylinklabs.watchtower.enable=false"
+    networks:
+      - dunedin-live
     restart: unless-stopped
+
+networks:
+  dunedin-live:
+    external: true
+    name: dunedin-live
