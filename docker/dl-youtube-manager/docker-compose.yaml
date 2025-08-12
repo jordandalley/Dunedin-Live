@@ -2,18 +2,17 @@ services:
   dl-youtube-manager:
     build: .
     container_name: dl-youtube-manager
-    network_mode: host
     volumes:
       - /docker/dl-youtube-manager/data:/data
     environment:
-      DRY_RUN: False
+      DRY_RUN: false
       TZ: "Pacific/Auckland"
       STREAM_KEY: "stream-key"
       AUTH_TOKEN_PATH: "/data"
       RESTREAMER_IP: "192.168.52.12"
       RESTREAMER_PORT: "8380"
       RESTREAMER_USER: "admin"
-      RESTREAMER_PASSWORD: "dumbpassword"
+      RESTREAMER_PASSWORD: "stupidpassword"
       RESTREAMER_API_COMMAND_PATH: "/api/v3/process/restreamer-ui%3Aegress%3Ayoutube%3A00089a01-1463-46ca-b7e1-cd577a1fb0e4/command"
       STREAM_TITLE: "Dunedin, NZ - Live Webcam (4K)"
       STREAM_DESCRIPTION: >
@@ -21,6 +20,11 @@ services:
         This stream is rolled over every 12 hours, at 3:00am and 3:00pm NZ time. Please subscribe to find the latest live stream easily!
         Stream shot on a Provision ISR DI-380IPEN-MVF-V3 Camera provided by SWL: https://www.swl.co.nz/.
         Higher quality direct stream available here: https://dunedin-live.dalleyfamily.net/
-    #labels:
-    #  - "com.centurylinklabs.watchtower.enable=false"
+    networks:
+      - dunedin-live
     restart: no
+
+networks:
+  dunedin-live:
+    external: true
+    name: dunedin-live
