@@ -41,7 +41,10 @@ YOUTUBE_PRIVACY = os.environ.get("YOUTUBE_PRIVACY", "public")
 CLEANUP_IMAGES = os.environ.get("CLEANUP_IMAGES", "true").lower() in ("true", "1", "yes")
 
 # Define the scopes
-SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+SCOPES = [
+    "https://www.googleapis.com/auth/youtube.upload",
+    "https://www.googleapis.com/auth/youtube.force-ssl"
+]
 
 def get_yesterdays_date(tz):
     now = datetime.now(pytz.timezone(tz))
@@ -64,31 +67,27 @@ def create_timelapse_video(inputdir,outputdir):
     else:
         print(f"Old video file {outputfile} does not exist, moving on...")
     # Define ffmpeg params (software encoding)
-    ffmpeg = [
-        'ffmpeg',
-        '-framerate', '30',
-        '-pattern_type', 'glob',
-        '-i', inputdir + '/' + '*.jpg',
-        '-c:v', 'libx264',
-        '-pix_fmt', 'yuv420p',
-        '-r', '30',
-        outputfile
-    ]
-    # ffmpeg params for qsv hwaccel
     #ffmpeg = [
     #    'ffmpeg',
-    #    '-hwaccel', 'qsv',
-    #    '-hwaccel_output_format', 'qsv',
     #    '-framerate', '30',
     #    '-pattern_type', 'glob',
     #    '-i', inputdir + '/' + '*.jpg',
-    #    '-c:v', 'h264_qsv',
-    #    '-pix_fmt', 'nv12', # used by older ffmpeg
+    #    '-c:v', 'libx264',
+    #    '-pix_fmt', 'yuv420p',
     #    '-r', '30',
-    #    '-qp', '18',
-    #     '-b:v', '20M',
     #    outputfile
     #]
+    # ffmpeg params for qsv hwaccel
+    ffmpeg = [
+        'ffmpeg',
+        '-pattern_type', 'glob',
+        '-i', inputdir + '/*.jpg',
+        '-framerate', '30',
+        '-c:v', 'h264_qsv',
+        '-preset', 'fast',
+        '-pix_fmt', 'yuv420p',
+        outputfile
+    ]
     # Run ffmpeg
     print("Running ffmpeg, this may take a while...")
     try:
@@ -111,23 +110,38 @@ def cleanup_images(choice,imgdir):
         print("Skipping cleanup...")
 
 def get_authenticated_service():
+    token_file = f'{AUTH_TOKEN_PATH}/token.json'
+    secrets_file = f'{AUTH_TOKEN_PATH}/client_secrets.json'
     creds = None
-    # The file token.json stores the user's access and refresh tokens
-    if os.path.exists(f'{AUTH_TOKEN_PATH}/token.json'):
-        creds = Credentials.from_authorized_user_file(f'{AUTH_TOKEN_PATH}/token.json')
-    # If there are no (valid) credentials available, let the user log in
+
+    # Load existing credentials if available
+    if os.path.exists(token_file):
+        creds = Credentials.from_authorized_user_file(token_file)
+
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
+            # Explicitly tell Google we're using localhost redirect
             flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
-                f'{AUTH_TOKEN_PATH}/client_secrets.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open(f'{AUTH_TOKEN_PATH}/token.json', 'w') as token:
+                secrets_file, SCOPES, redirect_uri="http://localhost"
+            )
+
+            auth_url, _ = flow.authorization_url(
+                access_type='offline',
+                include_granted_scopes='true',
+                prompt='consent'
+            )
+            print("\n🔑 Please visit this URL to authorize this application:\n")
+            print(auth_url, "\n")
+
+            code = input("Paste the authorization code here: ").strip()
+            flow.fetch_token(code=code)
+            creds = flow.credentials
+
+        with open(token_file, 'w') as token:
             token.write(creds.to_json())
 
-    # Build the YouTube Data API service
     youtube = googleapiclient.discovery.build('youtube', 'v3', credentials=creds)
     return youtube
 
