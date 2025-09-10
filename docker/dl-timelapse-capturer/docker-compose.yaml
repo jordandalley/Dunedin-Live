@@ -17,5 +17,4 @@ services:
 
 networks:
   dunedin-live:
-    external: true
     name: dunedin-live
