@@ -6,7 +6,7 @@ services:
       - /docker/dl-timelapse-capturer/data:/data
     environment:
       - TZ=Pacific/Auckland
-      - CAMERA_IMG_URL=http://192.168.53.4/GetSnapshot
+      - CAMERA_IMG_URL=http://192.168.52.9/GetSnapshot
       - CAMERA_USER=admin
       - CAMERA_PASSWORD=dumbpassword
       - TIME_INTERVAL=10
