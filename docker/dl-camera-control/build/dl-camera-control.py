@@ -11,6 +11,7 @@ import pytz
 # Camera credentials
 cameraUsername = 'admin'
 cameraPassword = 'dumbpassword'
+cameraIP = '192.168.52.9'
 
 # Set the camera shutter preferences here
 shutter_setting = {
@@ -46,7 +47,7 @@ def do_api_call(event):
 
     try:
         response = requests.post(
-            "http://192.168.53.4/SetImageConfig/1",
+            f"http://{cameraIP}/SetImageConfig/1",
             headers=headers,
             data=payload.encode("utf-8"),
             auth=HTTPBasicAuth(cameraUsername, cameraPassword),
