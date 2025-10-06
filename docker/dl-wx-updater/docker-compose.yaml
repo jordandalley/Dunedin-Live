@@ -8,7 +8,7 @@ services:
       - API_KEY=apikey
       - LAT=-45.87416
       - LON=170.50361
-      - CAMERA_URL=http://192.168.53.4/SetImageOsdConfig
+      - CAMERA_URL=http://192.168.52.9/SetImageOsdConfig
       - CAMERA_USERNAME=admin
       - CAMERA_PASSWORD=dumbpassword
       - UPDATE_INTERVAL=600
