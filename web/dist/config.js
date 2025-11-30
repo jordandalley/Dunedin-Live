@@ -1,0 +1,1 @@
+var playerConfig = {"autoplay":true,"mute":true,"statistics":true,"chromecast":true,"airplay":true,"color":{"seekbar":"#ffffff","buttons":"#ffffff"},"ga":{"account":"","name":""},"logo":{"image":"","position":"top-left","link":""},"poster":"camera1.jpg","source":"camera1.m3u8","license":{"license":"CC BY 4.0","title":"Dunedin Live Webcam (4K)","author":""}}
