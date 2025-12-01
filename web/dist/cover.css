@@ -54,8 +54,8 @@ body.bg-dark {
 }
 
 header .navbar-brand img {
-  width: 68px;
-  height: 68px;
+  width: 64px;
+  height: 64px;
 }
 
 header .navbar-brand {
@@ -68,6 +68,7 @@ header .nav-masthead {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.35rem;
+  float: none !important;
 }
 
 .header-wrap {
@@ -75,6 +76,7 @@ header .nav-masthead {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.65rem;
+  justify-content: space-between;
 }
 
 .hero-intro {
@@ -100,8 +102,8 @@ header .nav-masthead {
   gap: 0.5rem;
   padding: 0.2rem 0.7rem;
   border-radius: 999px;
-  background: var(--accent-faint);
-  color: var(--accent);
+  background: rgba(255, 99, 132, 0.12);
+  color: #ff637d;
   font-weight: 700;
   letter-spacing: 0.01em;
   font-size: 0.9rem;
@@ -112,8 +114,9 @@ header .nav-masthead {
   width: 0.65rem;
   height: 0.65rem;
   border-radius: 50%;
-  background: radial-gradient(circle, #b8f5ff, var(--accent));
-  box-shadow: 0 0 0 6px rgba(108, 225, 255, 0.18);
+  background: radial-gradient(circle, #ff9aa8, #ff3b53);
+  box-shadow: 0 0 0 6px rgba(255, 99, 132, 0.18);
+  animation: livePulse 1.8s ease-in-out infinite;
 }
 
 .glass-card {
@@ -206,8 +209,8 @@ header .nav-masthead {
 
 @media (max-width: 768px) {
   header .navbar-brand img {
-    width: 56px;
-    height: 56px;
+    width: 52px;
+    height: 52px;
   }
 
   .header-wrap {
@@ -231,5 +234,20 @@ header .nav-masthead {
 
   .info-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@keyframes livePulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 99, 132, 0.24);
+  }
+  70% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 12px rgba(255, 99, 132, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 99, 132, 0);
   }
 }
