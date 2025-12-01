@@ -9,6 +9,9 @@
     <title>Dunedin Live Webcam</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap core CSS -->
 <link href="bootstrap.min.css" rel="stylesheet">
@@ -41,7 +44,7 @@
     <!-- Custom styles for this template -->
     <link href="cover.css" rel="stylesheet">
   </head>
-  <body class="d-flex h-100 text-center text-white bg-dark">
+  <body class="d-flex h-100">
     
 <div class="cover-container d-flex w-100 h-100 pt-3 pb-3 mx-auto flex-column">
   <header class="mb-auto">
@@ -61,15 +64,45 @@
   </header>
 
   <main class="px-3">
-	<div class="ratio ratio-16x9">
-	<a href="/hls/77104d0c-bd85-477e-944c-fcb09f6a8e5e.jpg" target="_blank"><img src="hls/77104d0c-bd85-477e-944c-fcb09f6a8e5e.jpg" style="max-width:100%"></a>
-	</div>
+    <div class="hero-intro">
+      <span class="badge-live">Fresh still</span>
+      <h1>Current view from the camera</h1>
+      <p>High-resolution snapshot updating roughly every minute. Open the full-size image in a new tab for closer inspection.</p>
+    </div>
+
+    <div class="glass-card">
+      <div class="ratio ratio-16x9">
+        <a href="/hls/camera1.jpg" target="_blank" aria-label="Open full-size image">
+          <img src="/hls/camera1.jpg" alt="Current view from the Dunedin Live camera" style="max-width:100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+        </a>
+      </div>
+      <div class="player-meta" style="margin-top: 0.9rem;">
+        <div class="meta-chip">Updates every ~60s</div>
+        <div class="meta-chip">Click for full resolution</div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h5>Watch live</h5>
+        <p>Jump straight back to the live stream.</p>
+        <a href="/">Watch the livestream →</a>
+      </div>
+      <div class="info-card">
+        <h5>Backup stream</h5>
+        <p>YouTube livestream is available as a fallback.</p>
+        <a href="youtube.html">Open YouTube stream →</a>
+      </div>
+      <div class="info-card sponsor-highlight">
+        <h5>Powered locally</h5>
+        <p>Camera sponsored by Provision-ISR &amp; Security Wholesale Limited. Connectivity by Quic broadband.</p>
+        <a href="https://account.quic.nz/refer/282731" target="_blank" rel="noopener">Join Quic broadband →</a>
+      </div>
+    </div>
   </main>
 
   <footer class="mt-auto text-white-50">
-	<p>Images are updated on average, every 1 minute.</p>
-	<p>Camera sponsored by <a href="https://provision-isr.com/" target="_blank" class="text-white">Provision-ISR</a> and <a href="https://www.swl.co.nz/" target="_blank" class="text-white">Security Wholesale Limited</a> (SWL).
-	<br/>Powered by South Island based Quic broadband. Use the code <b>R282731EPGJMG</b> on signup to waive the $29 setup fee! Click <a href="https://account.quic.nz/refer/282731" target="_blank" class="text-white">here</a> to join now!</p>
+	<p class="footer-note">If the direct stream stalls, switch to the <a href="youtube.html">YouTube livestream</a>. Images update roughly every minute.</p>
   </footer>
 </div>
 
