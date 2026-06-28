@@ -4,10 +4,10 @@ services:
     container_name: dl-wx-updater
     environment:
       - TZ=Pacific/Auckland
-      - API_URL=https://api.metservice.com/mobile/nz/weatherData
-      - API_KEY=apikey
-      - LAT=-45.87416
-      - LON=170.50361
+      - MET_API_URL=https://api.metservice.com/mobile/nz/weatherData
+      - MET_API_KEY=apikey
+      - MET_LAT=-45.87416
+      - MET_LON=170.50361
       - CAMERA_URL=http://192.168.52.9/SetImageOsdConfig
       - CAMERA_USERNAME=admin
       - CAMERA_PASSWORD=dumbpassword
