@@ -77,14 +77,13 @@ def create_timelapse_video(inputdir,outputdir):
     #    '-r', '30',
     #    outputfile
     #]
-    # ffmpeg params for qsv hwaccel
+    # ffmpeg params for qsv hwaccel hevc
     ffmpeg = [
         'ffmpeg',
         '-pattern_type', 'glob',
         '-i', inputdir + '/*.jpg',
         '-framerate', '30',
-        '-c:v', 'h264_qsv',
-        '-preset', 'fast',
+        '-c:v', 'hevc_qsv',
         '-pix_fmt', 'yuv420p',
         outputfile
     ]
