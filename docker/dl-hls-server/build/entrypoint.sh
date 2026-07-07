@@ -57,7 +57,7 @@ exec ffmpeg \
     -f hls \
     -start_number 0 \
     -hls_time 6 \
-    -hls_list_size 12 \
+    -hls_list_size 60 \
     -hls_flags append_list+delete_segments+program_date_time+independent_segments+temp_file \
     -hls_delete_threshold 4 \
     -hls_segment_type fmp4 \
