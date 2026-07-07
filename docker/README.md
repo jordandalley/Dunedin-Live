@@ -4,6 +4,22 @@ Each of the folders here contains a different docker container that performs a d
 
 All docker containers share the same docker network 'dunedin-live'. This network is initialised by running the following command, and only needs to be run once: `docker network create dunedin-live`
 
+## dl-youtube-manager ##
+
+Youtube livestreams only have a retention of 12 hours, so this process counters that by creating a new livestream at this interval for archival purposes.
+
+When run, it looks for a currently running stream by the stream key, and if there is one, it spawns an ffmpeg process and begins sending video.
+
+If one is not running, it creates a new stream, then spawns a new ffmpeg process and begins sending video.
+
+While the container is running, it will roll over the streams at 3am and 3pm, but using Youtube API's to stop the stream, killing the ffmpeg process, creating a new stream, and then starting a new ffmpeg process.
+
+## dl-hls-server ##
+
+This is a specialised docker container running alpine, with nginx, ffmpeg and curl. It uses memfs and creates a ramdisk mounted at /hls where segments are written.
+
+A for loop fetches a new image directly from the camera every minute and dumps it into the ramdisk.
+
 ## dl-camera-control ##
 
 This docker container runs as a daemon and makes automated shutter speed adjustments to the Provision-ISR DI-380IPEN-MVF-V3 camera settings according to dawn, sunrise, sunset and dusk.
@@ -33,16 +49,3 @@ There are three volume mappings in the docker compose file which need close atte
 ## dl-wx-updater ##
 
 This docker container runs as a daemon that simply updates the on-screen display (OSD) of the Provision-ISR DI-380IPEN-MVF-V3 camera every 10 minutes with updated weather information pulled from the Metservice mobile weather API's.
-
-## dl-youtube-manager ##
-
-This docker container runs on a schedule using crontab at 03:00 and 15:00 each day:
-
-```
-0 15 * * * /usr/bin/docker compose --project-directory /docker/dl-youtube-manager run --rm dl-youtube-manager
-0 3 * * * /usr/bin/docker compose --project-directory /docker/dl-youtube-manager run --rm dl-youtube-manager
-```
-
-Youtube livestreams only have a retention of 12 hours, so this process counters that by creating a new livestream at this interval for archival purposes.
-
-When run, it looks for a currently running stream by the stream key, and if there is one, stops it and creates a new one.

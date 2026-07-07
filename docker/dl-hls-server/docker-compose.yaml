@@ -1,0 +1,21 @@
+services:
+  dl-hls-server:
+    build: .
+    container_name: dl-hls-server
+    environment:
+      - TZ=Pacific/Auckland
+      - RTSP_URL=rtsp://admin:dumbpassword@192.168.52.9:554/profile1
+      - IMG_URL=http://admin:dumbpassword@192.168.52.9/GetSnapshot
+      - STREAM_NAME=camera1
+    ports:
+      - "8080:80"
+    networks:
+      - dunedin-live
+    tmpfs:
+      - /hls:size=512m,uid=0,gid=0,mode=1777
+    restart: unless-stopped
+
+networks:
+  dunedin-live:
+    external: true
+    name: dunedin-live
