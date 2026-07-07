@@ -5,8 +5,9 @@ export async function onRequest(context) {
 
   // strip /hls from the front
   const suffix = url.pathname.replace(/^\/hls/, "");
-  const targetPath = "/memfs" + suffix;
-  const targetUrl = backend + targetPath + url.search;
+  //const targetPath = "/memfs" + suffix;
+  //const targetUrl = backend + targetPath + url.search;
+  const targetUrl = backend + suffix + url.search;
 
   const response = await fetch(targetUrl, {
     method: context.request.method,
