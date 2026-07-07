@@ -64,7 +64,7 @@
 <main class="px-3">
 	<div class="ratio ratio-16x9">
 		<div style="position:absolute;top:0;right:0;bottom:0;left:0">
-			<video id="player" poster="camera1.jpg" controls playsinline style="width:100%; height:100%; object-fit: contain;"></video>
+			<video id="player" poster="hls/camera1.jpg" controls playsinline style="width:100%; height:100%; object-fit: contain;"></video>
 		</div>
 	</div>
 </main>
@@ -72,7 +72,7 @@
 
 <script>
 	var video = document.getElementById('player');
-	var streamUrl = "camera1.m3u8";
+	var streamUrl = "hls/camera1-master.m3u8";
 
 	if (Hls.isSupported()) {
 		var hls = new Hls({
