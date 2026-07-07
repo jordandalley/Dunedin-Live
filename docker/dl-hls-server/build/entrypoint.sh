@@ -64,5 +64,5 @@ exec ffmpeg \
     -hls_fmp4_init_filename "${STREAM_NAME}-init.mp4" \
     -hls_fmp4_init_resend 1 \
     -master_pl_name "${STREAM_NAME}-master.m3u8" \
-    -hls_segment_filename "/hls/${STREAM_NAME}-%d.mp4" \
+    -hls_segment_filename "/hls/${STREAM_NAME}-%d.m4s" \
     "/hls/${STREAM_NAME}.m3u8"
