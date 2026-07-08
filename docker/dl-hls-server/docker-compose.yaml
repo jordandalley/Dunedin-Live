@@ -5,6 +5,7 @@ services:
     environment:
       - TZ=Pacific/Auckland
       - RTSP_URL=rtsp://admin:dumbpassword@192.168.52.9:554/profile1
+      - VIDEO_KBPS=8192
       - IMG_URL=http://admin:dumbpassword@192.168.52.9/GetSnapshot
       - STREAM_NAME=camera1
     ports:
