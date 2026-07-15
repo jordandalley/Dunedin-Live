@@ -5,14 +5,15 @@ services:
     volumes:
       - /docker/dl-youtube-manager/data:/data
     environment:
+      DRY_RUN: false
       TZ: "Pacific/Auckland"
-      STREAM_KEY: "stream-key"
+      STREAM_KEY: ""
       AUTH_TOKEN_PATH: "/data"
       CAMERA_RTSP_URL: "rtsp://admin:dumbpassword@192.168.52.9:554/profile1"
       STREAM_TITLE: "Dunedin, NZ - Live Webcam (4K)"
       STREAM_DESCRIPTION: >
-        This 4K stream runs on Quic Broadband - For FREE signup visit https://account.quic.nz/refer/282731 and use the code R282731EPGJMG on checkout.
-        This stream is rolled over every 12 hours, at 3:00am and 3:00pm NZ time. Please subscribe to find the latest live stream easily!
+        This 4K stream is rolled over every 12 hours, at 3:00am and 3:00pm NZ time.
+        Please subscribe to find the latest live stream easily!
         Stream shot on a Provision ISR DI-380IPEN-MVF-V3 Camera provided by SWL: https://www.swl.co.nz/.
         Higher quality direct stream available here: https://dunedin-live.dalleyfamily.net/
     networks:

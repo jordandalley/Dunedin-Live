@@ -11,14 +11,15 @@ services:
       - /docker/dl-timelapse-capturer/data:/data/images
     environment:
       TZ: Pacific/Auckland
+      PUID: 1000
+      PGID: 1000
       AUTH_TOKEN_PATH: /data/oauth
       TIMELAPSE_IMAGE_PATH: /data/images
       VIDEO_OUTPUT_PATH: /data/video
       YOUTUBE_TITLE: "Dunedin, NZ: Timelapse"
       YOUTUBE_DESCRIPTION: >
-        This livestream uses Quic Broadband - For FREE signup visit https://account.quic.nz/refer/282731
-        and use the code R282731EPGJMG on checkout. Timelapse was recorded on a Provision ISR DI-380IPEN-MVF-V3
-        Camera provided by SWL: https://www.swl.co.nz/. New timelapse is generated at midnight every night.
+        Timelapse of Dunedin, New Zealand. Footage was recorded on a Provision ISR DI-380IPEN-MVF-V3
+        Camera provided by SWL: https://www.swl.co.nz/. A new timelapse is generated each day.
       YOUTUBE_VIDEO_TAGS: Dunedin,New Zealand,Timelapse
       YOUTUBE_CATEGORY_ID: "19"
       YOUTUBE_PRIVACY: public
